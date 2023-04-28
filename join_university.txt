@@ -1,0 +1,99 @@
+1)
+
+SELECT `students`.`name`, `students`.`surname`,
+`degrees`.`name` AS `degree_name`
+FROM `students`
+INNER JOIN `degrees`
+ON `students`.`degree_id` = `degrees`.`id`
+WHERE `degrees`.`name` = "Corso di Laurea in Economia";
+
+2)
+
+SELECT `degrees`.`name`,
+`departments`.`name` AS `department`
+FROM `degrees`
+INNER JOIN `departments`
+ON `degrees`.`department_id` = `departments`.`id`
+WHERE `departments`.`name` = "Dipartimento di Neuroscienze"
+AND `degrees`.`name` LIKE "Corso di Laurea Magistrale%";
+
+3)
+
+SELECT `courses`.`name`, `teachers`.`name`, `teachers`.`surname`
+FROM `courses`
+
+INNER JOIN `course_teacher`
+ON `courses`.`id` = `course_teacher`.`course_id`
+
+INNER JOIN `teachers`
+ON `course_teacher`.`teacher_id` = `teachers`.`id`
+
+WHERE `teachers`.id = 44;
+
+4)
+
+SELECT `students`.`name`, `students`.`surname`,
+`degrees`.`name` AS `degree`,
+`departments`.`name` AS `department`
+
+FROM `students`
+INNER JOIN `degrees`
+ON `students`.`degree_id` = `degrees`.`id`
+
+INNER JOIN `departments`
+ON `degrees`.`department_id` = `departments`.`id`
+
+ORDER BY `students`.`surname` ASC, `students`.`name` ASC;
+
+5)
+
+SELECT `degrees`.`name`,
+`courses`.`name`,
+`teachers`.`name`,
+`teachers`.`surname`
+
+FROM `degrees`
+INNER JOIN `courses`
+ON `degrees`.`id` = `courses`.`degree_id`
+
+INNER JOIN `course_teacher`
+ON `courses`.`id` = `course_teacher`.`course_id`
+
+INNER JOIN `teachers`
+ON `course_teacher`.`teacher_id` = `teachers`.`id`;
+
+6)
+
+SELECT `teachers`.`name`, `teachers`.`surname`,
+`departments`.`name` AS `department`
+
+FROM `teachers`
+INNER JOIN `course_teacher`
+ON `teachers`.`id` = `course_teacher`.`teacher_id`
+
+INNER JOIN `courses`
+ON `course_teacher`.`course_id` = `courses`.`id`
+
+INNER JOIN `degrees`
+ON `courses`.`degree_id` = `degrees`.`id`
+
+INNER JOIN `departments`
+ON `degrees`.`department_id` = `departments`.`id`
+
+WHERE `departments`.`name` = "Dipartimento di Matematica";
+
+7)
+
+SELECT `students`.`name`, `students`.`surname`, COUNT(`courses`.`id`) AS `tentativi`, `courses`.`name` AS `nome_corso`
+FROM `students`
+
+INNER JOIN `exam_student`
+ON `students`.`id` = `exam_student`.`student_id`
+
+INNER JOIN `exams`
+ON `exam_student`.`exam_id` = `exams`.`id`
+
+INNER JOIN `courses`
+ON `exams`.`course_id` = `courses`.`id`
+
+GROUP BY  `courses`.`id`,  `students`.`name`, `students`.`surname`;
